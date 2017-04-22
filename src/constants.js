@@ -1,6 +1,6 @@
 var c = {
 	color : {
-		backgound : '#12c224',
+		backgound : '#101040',
 		playarea : 0x32d050,
 		shape : 0xd030e0,
 		shape2 : 0xd03040,

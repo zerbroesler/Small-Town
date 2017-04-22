@@ -7,11 +7,9 @@ function Create(game, model, tool) {
 
 	return function() {
 		// Fuction called after 'preload' to setup the game
-
+		var gameMap = model.getGameMap();
 		
 		// Init data model
-//		model.createStartShape();
-		
 		var graphics = game.add.graphics(0, 0);
 		model.setGraphics(graphics);
 		
@@ -22,8 +20,7 @@ function Create(game, model, tool) {
 		});
 		game.add.text(470,16,"Small town", { fill: '#ffffff',fontSize : 50 });
 
-//		model.setGoal();
-//		gameMap.init();
+		gameMap.init();
 		
 	};
 

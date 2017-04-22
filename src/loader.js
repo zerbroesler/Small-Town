@@ -6,7 +6,6 @@ function Loader(game) {
 	return function() {
 
 	
-		game.load.image('ground_1x1','pic/ground_1x1.png');
 /*		
 		game.load.image('horizontal','sprite/brushHozizontal.png');
 		game.load.image('vertical','sprite/brushVertical.png');
@@ -20,6 +19,10 @@ function Loader(game) {
 
 		game.load.image('nextLevel','sprite/nextLevel.png');
 */
+		// Load maps
+		game.load.tilemap('Level1','maps/level1.json',null,Phaser.Tilemap.TILED_JSON);
+		game.load.image('ground_1x1','pic/ground_1x1.png');
+		
 		
 		// This sets a limit on the up-scale
 		game.scale.maxWidth = c.sizeMax.x;
@@ -30,8 +33,6 @@ function Loader(game) {
 		// Then we tell Phaser that we want it to scale up to whatever the
 		// browser can handle, but to do it proportionally
 		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-//		game.scale.setScreenSize();
-
 	};
 
 }

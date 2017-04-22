@@ -7,10 +7,17 @@ function Model() {
 	var aMoving = [];
 	var oBrush = null;
 	var oGraphics = null;
+	var gameMap = null;
 	var level = 0;
 	
 	// Model
 	
+	this.setGameMap = function(gameMapIn){
+		gameMap = gameMapIn;
+	};
+	this.getGameMap = function(){
+		return gameMap;
+	};
 	this.setGraphics = function(oGraphicsIn){
 		oGraphics = oGraphicsIn;
 	};

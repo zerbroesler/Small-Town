@@ -12,6 +12,7 @@ function init() {
 	};
 	var model = new Model();
 	var gameMap = new GameMap(game);
+	model.setGameMap(gameMap);
 
 	// Creates a new 'main' state that will contain the game
 	gameState.main = function() {
