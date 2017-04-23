@@ -17,6 +17,11 @@ function Houses(model){
 		var down = 0;
 		var neighbours = 0;
 
+		var center = map.getTile(x,y);
+		if(isMyColor(center,color)===false){
+			return;
+		}
+
 		if(x-1>=0){
 			left = map.getTile(x-1,y);
 			if(isMyColor(left,color)===true){
@@ -58,7 +63,16 @@ function Houses(model){
 		if(y >= map.height){
 			return;
 		}
+		var mapLayer = model.getMapLayer();
+		map.putTile(color*40+1, x, y, mapLayer);
 		var currentTile = calculateHouseShape(x,y,color);
+		calculateHouseShape(x-1,y,color);
+		calculateHouseShape(x+1,y,color);
+		calculateHouseShape(x,y-1,color);
+		calculateHouseShape(x,y+1,color);
+		
+		
+		
 //		map.putTile(currentTile, x, y, mapLayer);
 	}
 }
