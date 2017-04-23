@@ -11,7 +11,7 @@ function init() {
 		events : {}
 	};
 	var model = new Model();
-	var gameMap = new GameMap(game);
+	var gameMap = new GameMap(game,model);
 	model.setGameMap(gameMap);
 
 	// Creates a new 'main' state that will contain the game
@@ -24,7 +24,7 @@ function init() {
 		update : Update(game, model, tool),
 		render : Render(game, model, tool),
 	};
-
+	
 	// Add and start the 'main' state to start the game
 	game.state.add('main', gameState.main);
 	game.state.start('main');

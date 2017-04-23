@@ -1,4 +1,4 @@
-function GameMap(game){
+function GameMap(game,model){
 	
 	
 	var map;
@@ -11,6 +11,10 @@ function GameMap(game){
 	var showLayersKey;
 	var mapLayerKey;
 	
+	this.getMap = function(){
+		return map;
+	};
+	
 	this.init = function(){
 	    //  Creates a blank tilemap
 		map = game.add.tilemap('Level1');
@@ -21,6 +25,7 @@ function GameMap(game){
 		mapLayer = map.createLayer('level');
 		//  Resize the world
 		mapLayer.resizeWorld();
+		model.setMapLayer(mapLayer);
 
 		//  Create our tile selector at the top of the screen
 		this.createTileSelector();
@@ -41,34 +46,23 @@ function GameMap(game){
 	
 	this.updateMarker = function() {
 
-		marker.x = mapLayer.getTileX(game.input.activePointer.worldX) * 32;
-		marker.y = mapLayer.getTileY(game.input.activePointer.worldY) * 32;
+		var tileX = mapLayer.getTileX(game.input.activePointer.worldX);
+		var tileY = mapLayer.getTileY(game.input.activePointer.worldY);
+		marker.x = tileX * 32;
+		marker.y = tileY * 32;
 
 		if (game.input.mousePointer.isDown)
 		{
+			model.getHouses().setHouse(tileX,tileY,model.getColor());
+/*
 			map.putTile(currentTile, mapLayer.getTileX(marker.x), mapLayer.getTileY(marker.y), mapLayer);
+			*/
 			// map.fill(currentTile, mapLayer.getTileX(marker.x), mapLayer.getTileY(marker.y), 4, 4, mapLayer);
 		}
 
 	}
 	
 	this.createTileSelector = function() {
-
-		//  Our tile selection window
-		var tileSelector = game.add.group();
-
-		var tileSelectorBackground = game.make.graphics();
-		tileSelectorBackground.beginFill(0x000000, 0.5);
-		tileSelectorBackground.drawRect(0, 0, 800, 34);
-		tileSelectorBackground.endFill();
-
-		tileSelector.add(tileSelectorBackground);
-
-		var tileStrip = tileSelector.create(1, 1, 'ground_1x1');
-		tileStrip.inputEnabled = true;
-		tileStrip.events.onInputDown.add(this.pickTile, this);
-
-		tileSelector.fixedToCamera = true;
 
 		//  Our painting marker
 		marker = game.add.graphics();

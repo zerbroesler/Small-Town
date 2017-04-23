@@ -5,6 +5,12 @@ function Loader(game) {
 
 	return function() {
 
+		game.load.image('col1','pic/blue.png');
+		game.load.image('col2','pic/green.png');
+		game.load.image('col3','pic/yellow.png');
+		game.load.image('col4','pic/purple.png');
+		
+		game.load.spritesheet('maennchen','pic/maennchen.png',32,32,4);
 	
 /*		
 		game.load.image('horizontal','sprite/brushHozizontal.png');
