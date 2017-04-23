@@ -27,7 +27,7 @@ function Loader(game) {
 */
 		// Load maps
 		game.load.tilemap('Level1','maps/level1.json',null,Phaser.Tilemap.TILED_JSON);
-		game.load.image('ground_1x1','pic/ground_1x1.png');
+		game.load.image('ground','pic/ground.png');
 		
 		
 		// This sets a limit on the up-scale

@@ -1,18 +1,15 @@
 function Houses(model){
 	
 	var isMyColor = function(tile,color){
-		var index = tile.index - 1;
-		if(index< 3 || index > 20){
+		if(Math.floor((tile.index-1)/40)==color){
+			return true;
+		}else{
 			return false;
 		}
-		index = index % 25 - 3;
-		if(index % 4 === color -1){
-			return true;
-		}
-		return false;
 	};
 	
 	var calculateHouseShape = function(x,y,color){
+		var mapLayer = model.getMapLayer();
 		var map = model.getGameMap().getMap();
 		var left = 0;
 		var right = 0;
@@ -44,10 +41,12 @@ function Houses(model){
 				neighbours += 8;
 			}
 		}
-		var houseTable = [0,8,4,12,12,12,12,12,16,17,18,16,16,16,16,16];
+		var houseTable = [0,2,1,3,3,3,3,3,4,6,5,7,7,7,7,7];
 		
 		var newHouse = houseTable[neighbours];
-		return newHouse+4;
+		newHouse += (color) * 40 + 1;
+		map.putTile(newHouse, x, y, mapLayer);
+		return newHouse;
 	}
 	
 	this.setHouse = function(x,y,color){
@@ -59,11 +58,7 @@ function Houses(model){
 		if(y >= map.height){
 			return;
 		}
-		var mapLayer = model.getMapLayer();
 		var currentTile = calculateHouseShape(x,y,color);
-		if(currentTile<20){
-			currentTile += color-1;
-		}
-		map.putTile(currentTile, x, y, mapLayer);
+//		map.putTile(currentTile, x, y, mapLayer);
 	}
 }

@@ -17,15 +17,15 @@
  "tileheight":32,
  "tilesets":[
         {
-         "columns":25,
+         "columns":40,
          "firstgid":1,
-         "image":"..\/pic\/ground_1x1.png",
-         "imageheight":32,
-         "imagewidth":800,
+         "image":"..\/pic\/ground.png",
+         "imageheight":160,
+         "imagewidth":1280,
          "margin":0,
-         "name":"ground_1x1",
+         "name":"ground",
          "spacing":0,
-         "tilecount":25,
+         "tilecount":160,
          "tileheight":32,
          "tilewidth":32
         }],

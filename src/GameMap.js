@@ -20,7 +20,7 @@ function GameMap(game,model){
 		map = game.add.tilemap('Level1');
 
 		//  Add a Tileset image to the map
-		map.addTilesetImage('ground_1x1','ground_1x1');
+		map.addTilesetImage('ground','ground');
 
 		mapLayer = map.createLayer('level');
 		//  Resize the world
