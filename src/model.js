@@ -15,6 +15,7 @@ function Model() {
 	var houses = new Houses(this);
 	var mapLayer = null;
 	var sprites = [];
+	var spriteNo = 0;
 	
 	// Model
 	this.getHouses = function(){
@@ -76,6 +77,9 @@ function Model() {
 		this.setGoal();
 	};
 	this.addSprite = function(sprite){
+		sprite.data.no = spriteNo;
+		sprite.data.color = sprite.frame + 1;
+		spriteNo++;
 		sprites.push(sprite);
 	}
 	this.removeSprite = function(sprite){

@@ -38,15 +38,6 @@ function Create(game, model, tool) {
 		var userSelection = new UserSelection(game,model);
 		model.setSelection(userSelection);
 		userSelection.init();
-		
-		// Sprite
-		sprite = game.add.sprite(464 , 100, 'maennchen');
-		sprite.data.no=1;
-		model.addSprite(sprite);
-		sprite = game.add.sprite(464 , 400, 'maennchen');
-		sprite.data.no=2;
-		model.addSprite(sprite);
-
 
 	}
 }
