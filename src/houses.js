@@ -49,9 +49,19 @@ function Houses(model){
 		var houseTable = [0,2,1,3,3,3,3,3,4,6,5,7,7,7,7,7];
 		
 		var newHouse = houseTable[neighbours];
-		newHouse += (color) * 40 + 1;
-		map.putTile(newHouse, x, y, mapLayer);
-		return newHouse;
+/*
+		if(center.index === 1){
+			newHouse += (color) * 40 + 1;
+			map.putTile(newHouse, x, y, mapLayer);
+			return newHouse;
+		}else{
+			*/
+			var old = center.index - 1;
+			old = old - old % 8;
+			newHouse += old + 1;
+			map.putTile(newHouse, x, y, mapLayer);
+			return newHouse;
+//		}
 	}
 	
 	this.setHouse = function(x,y,color){
@@ -64,7 +74,10 @@ function Houses(model){
 			return;
 		}
 		var mapLayer = model.getMapLayer();
-		map.putTile(color*40+1, x, y, mapLayer);
+		if(map.getTile(x,y).index===1){
+			// Put only on grass
+			map.putTile(color*40+1, x, y, mapLayer);
+		}
 		var currentTile = calculateHouseShape(x,y,color);
 		calculateHouseShape(x-1,y,color);
 		calculateHouseShape(x+1,y,color);
