@@ -21,7 +21,7 @@ function UserSelection(game,model){
 			return;
 		}
 		var color = model.getColor();
-		marker.x = 1000 + (color - 1) * 70;
+		marker.x = 680 + (color - 1) * 70;
 		marker.y = 100;
 	};
 

@@ -48,16 +48,15 @@ function GameMap(game,model){
 
 		var tileX = mapLayer.getTileX(game.input.activePointer.worldX);
 		var tileY = mapLayer.getTileY(game.input.activePointer.worldY);
+		if(tileX>=c.grid.x || tileY>=c.grid.y){
+			return;
+		}
 		marker.x = tileX * 32;
 		marker.y = tileY * 32;
 
 		if (game.input.mousePointer.isDown)
 		{
 			model.getHouses().setHouse(tileX,tileY,model.getColor());
-/*
-			map.putTile(currentTile, mapLayer.getTileX(marker.x), mapLayer.getTileY(marker.y), mapLayer);
-			*/
-			// map.fill(currentTile, mapLayer.getTileX(marker.x), mapLayer.getTileY(marker.y), 4, 4, mapLayer);
 		}
 
 	}

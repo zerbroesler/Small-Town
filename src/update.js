@@ -4,6 +4,9 @@ function Update(game, model, tool) {
 	var down = false;
 	var won = false;
 	var wait = 200;
+	var middle = c.fieldsize.x / 2 -16;
+	var leftOfRoad = 8;
+	var rightOfRoad = 11;
 	
 	var isMyColor = function(tile,color){
 		if(Math.floor((tile.index-1)/40)==color){
@@ -16,8 +19,8 @@ function Update(game, model, tool) {
 	var checkSpriteEntersHouse = function(sprite){
 		var map = model.getGameMap().getMap();
 		var roundY = Math.round(sprite.y/32);
-		var left = map.getTile(13,roundY);
-		var right = map.getTile(16,roundY);
+		var left = map.getTile(leftOfRoad,roundY);
+		var right = map.getTile(rightOfRoad,roundY);
 		if(isMyColor(left,sprite.data.color)){
 			sprite.data.enter=-1;
 			sprite.data.entery=sprite.y-roundY*32;
@@ -37,7 +40,7 @@ function Update(game, model, tool) {
 
 		wait--;
 		if(model.getSprites().length<10 && wait < 0){
-			sprite = game.add.sprite(460 + Math.floor(Math.random()*8) , 0, 'maennchen',Math.floor(Math.random()*4));
+			sprite = game.add.sprite(middle-4 + Math.floor(Math.random()*8) , 0, 'maennchen',Math.floor(Math.random()*4));
 			model.addSprite(sprite);
 			wait = Math.floor(Math.random()*50)+100;
 		}
@@ -59,21 +62,21 @@ function Update(game, model, tool) {
 				sprite.x += sprite.data.enter;
 				sprite.y -= sprite.data.entery/16;
 				var spriteY = Math.round(sprite.y/32);
-				if (sprite.x>490 || sprite.x<430){
+				if (sprite.x>middle+25 || sprite.x<middle-25){
 					sprite.visible = false;
 					var mapLayer = model.getMapLayer();
 					model.removeSprite(sprite);
 					if(sprite.data.enter===-1){
-						var left = map.getTile(13,spriteY);
+						var left = map.getTile(leftOfRoad,spriteY);
 						if(left.index%40<33){
-							map.putTile(left.index+8,13,spriteY,mapLayer);
+							map.putTile(left.index+8,leftOfRoad,spriteY,mapLayer);
 						}
 					}
 					if(sprite.data.enter===1){
-						var right = map.getTile(16,spriteY);
+						var right = map.getTile(rightOfRoad,spriteY);
 						if(right.index%40<33){
 							//Put somebody in
-							map.putTile(right.index+8,16,spriteY,mapLayer);
+							map.putTile(right.index+8,rightOfRoad,spriteY,mapLayer);
 						}
 					}
 				}
@@ -85,10 +88,10 @@ function Update(game, model, tool) {
 				}
 			}
 
-			if(sprite.y < 10 && sprite.data.upwards === true) {
+			if(sprite.y < 1 && sprite.data.upwards === true) {
 				sprite.data.upwards = false;
 			}
-			if(sprite.y > 600 && sprite.data.upwards !== true) {
+			if(sprite.y >= c.fieldsize.y-32 && sprite.data.upwards !== true) {
 				sprite.data.upwards = true;
 			}
 			checkSpriteEntersHouse(sprite);

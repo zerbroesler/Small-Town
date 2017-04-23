@@ -26,7 +26,7 @@ function Loader(game) {
 		game.load.image('nextLevel','sprite/nextLevel.png');
 */
 		// Load maps
-		game.load.tilemap('Level1','maps/level1.json',null,Phaser.Tilemap.TILED_JSON);
+		game.load.tilemap('Level1','maps/level1a.json',null,Phaser.Tilemap.TILED_JSON);
 		game.load.image('ground','pic/ground.png');
 		
 		

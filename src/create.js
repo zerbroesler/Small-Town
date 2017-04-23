@@ -14,23 +14,23 @@ function Create(game, model, tool) {
 		model.setGraphics(graphics);
 		
 		game.stage.backgroundColor = c.color.backgound;
-		var lines = [];
-		game.add.text(470,16,"Small town", { fill: '#ffffff',fontSize : 50 });
+//		game.add.text(470,16,"Small town", { fill: '#ffffff',fontSize : 50 });
 
 		gameMap.init();
 		
 		// Buttons
-		game.add.text(1030,30,"Select Color", { fill: '#ffffff',fontSize : 32 });
-		game.add.button(1000,100,'col1', function() {
+		var selectXPos = 680;
+		game.add.text(selectXPos+20,30,"Select Color", { fill: '#ffffff',fontSize : 22 });
+		game.add.button(selectXPos,100,'col1', function() {
 			model.setColor(1);
 		});
-		game.add.button(1070,100,'col2', function() {
+		game.add.button(selectXPos+70,100,'col2', function() {
 			model.setColor(2);
 		});
-		game.add.button(1140,100,'col3', function() {
+		game.add.button(selectXPos+140,100,'col3', function() {
 			model.setColor(3);
 		});
-		game.add.button(1210,100,'col4', function() {
+		game.add.button(selectXPos+210,100,'col4', function() {
 			model.setColor(4);
 		});
 		

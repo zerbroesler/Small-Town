@@ -16,6 +16,10 @@ function Houses(model){
 		var top = 0;
 		var down = 0;
 		var neighbours = 0;
+		
+		if(x < 0 || x >= map.width || y < 0 || y >= map.height){
+			return;
+		}
 
 		var center = map.getTile(x,y);
 		if(isMyColor(center,color)===false){
@@ -40,7 +44,7 @@ function Houses(model){
 				neighbours += 4;
 			}
 		}
-		if(y-1<=map.height){
+		if(y+1<map.height){
 			down = map.getTile(x,y+1);
 			if(isMyColor(down,color)===true){
 				neighbours += 8;
