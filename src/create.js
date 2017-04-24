@@ -20,7 +20,7 @@ function Create(game, model, tool) {
 		
 		// Buttons
 		var selectXPos = 680;
-		game.add.text(selectXPos+20,30,"Select Color", { fill: '#ffffff',fontSize : 22 });
+		game.add.text(selectXPos+20,30,"Select Color", { fill: '#ffffff',fontSize : 36 });
 		game.add.button(selectXPos,100,'col1', function() {
 			model.setColor(1);
 		});
@@ -33,6 +33,9 @@ function Create(game, model, tool) {
 		game.add.button(selectXPos+210,100,'col4', function() {
 			model.setColor(4);
 		});
+		
+		game.add.text(selectXPos+77,150,"Score", { fill: '#ffffff',fontSize : 36 });
+
 		
 		// User selection
 		var userSelection = new UserSelection(game,model);

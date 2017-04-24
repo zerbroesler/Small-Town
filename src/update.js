@@ -21,11 +21,20 @@ function Update(game, model, tool) {
 		var roundY = Math.round(sprite.y/32);
 		var left = map.getTile(leftOfRoad,roundY);
 		var right = map.getTile(rightOfRoad,roundY);
+		var houses = model.getHouses();
+		if(sprite.data.enter!==0){
+			// Already entering
+			return;
+		}
 		if(isMyColor(left,sprite.data.color)){
+			var tile = left; 
+			if(houses.getFreeHousePlaces(tile.x,tile.y).freePlaces > 0)
 			sprite.data.enter=-1;
 			sprite.data.entery=sprite.y-roundY*32;
 		}
 		if(isMyColor(right,sprite.data.color)){
+			var tile = right; 
+			if(houses.getFreeHousePlaces(tile.x,tile.y).freePlaces > 0)
 			sprite.data.enter=1;
 			sprite.data.entery=sprite.y-roundY*32;
 		}
@@ -58,7 +67,7 @@ function Update(game, model, tool) {
 		var sprites = model.getSprites();
 		for (var spriteNo=0;spriteNo<sprites.length;spriteNo++){
 			var sprite = sprites[spriteNo];
-			if(!isNaN(sprite.data.enter)) {
+			if(!isNaN(sprite.data.enter) && sprite.data.enter !== 0) {
 				sprite.x += sprite.data.enter;
 				sprite.y -= sprite.data.entery/16;
 				var spriteY = Math.round(sprite.y/32);
@@ -66,19 +75,17 @@ function Update(game, model, tool) {
 					sprite.visible = false;
 					var mapLayer = model.getMapLayer();
 					model.removeSprite(sprite);
+					var x = 0;
 					if(sprite.data.enter===-1){
-						var left = map.getTile(leftOfRoad,spriteY);
-						if(left.index%40<33){
-							map.putTile(left.index+8,leftOfRoad,spriteY,mapLayer);
-						}
+						x = leftOfRoad;
 					}
 					if(sprite.data.enter===1){
-						var right = map.getTile(rightOfRoad,spriteY);
-						if(right.index%40<33){
-							//Put somebody in
-							map.putTile(right.index+8,rightOfRoad,spriteY,mapLayer);
-						}
+						x = rightOfRoad;
 					}
+					var y = spriteY;
+					//Put somebody in
+					houses = model.getHouses();
+					houses.enterHouse(x,y);
 				}
 			}else{
 				if(sprite.data.upwards !== true){

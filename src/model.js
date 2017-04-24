@@ -79,6 +79,7 @@ function Model() {
 	this.addSprite = function(sprite){
 		sprite.data.no = spriteNo;
 		sprite.data.color = sprite.frame + 1;
+		sprite.data.enter = 0;		
 		spriteNo++;
 		sprites.push(sprite);
 	}
