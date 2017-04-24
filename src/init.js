@@ -10,7 +10,7 @@ function init() {
 	var tool = {
 		events : {}
 	};
-	var model = new Model();
+	var model = new Model(game);
 	var gameMap = new GameMap(game,model);
 	model.setGameMap(gameMap);
 

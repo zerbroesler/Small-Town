@@ -101,6 +101,9 @@ function Houses(model){
 	}
 	
 	this.setHouse = function(x,y,color){
+		if(model.useHouse() === false){
+			return;
+		}
 		// Sets a house in the given color
 		var map = model.getGameMap().getMap();
 		if(x >= map.width){

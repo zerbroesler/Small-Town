@@ -43,6 +43,7 @@ function Update(game, model, tool) {
 	return function() {
 		model.spriteBehaviour();
 		model.scoring();
+		model.manageResources();
 		// Function called 60 times per second
 		var aMoving = [];
 		var graphics = model.getGraphics();

@@ -1,4 +1,4 @@
-function Model() {
+function Model(game) {
 
 	var that = this;
 	var lines = [];
@@ -18,6 +18,9 @@ function Model() {
 	var spritesHome = [];
 	var spriteNo = 0;
 	var score = 0;
+	var housesCount = 0;
+	var housesText;
+	var resourceCount = 0;
 	
 	// Model
 	this.getHouses = function(){
@@ -83,6 +86,7 @@ function Model() {
 		sprite.data.color = sprite.frame + 1;
 		sprite.data.enter = 0;
 		sprite.data.counter = 0;
+		sprite.data.angry = 0;
 		spriteNo++;
 		sprites.push(sprite);
 	}
@@ -102,6 +106,24 @@ function Model() {
 	this.getSprites = function(){
 		return sprites;
 	}
+	this.getHouseCount = function(){
+		return housesCount;
+	};
+	this.setHousesText = function(housesTextIn){
+		housesText = housesTextIn;
+	};
+	this.addHouse = function(){
+		housesCount++;
+		housesText.text = "" + housesCount;
+	};
+	this.useHouse = function(){
+		if(housesCount === 0){
+			return false;
+		}
+		housesCount--;
+		housesText.text = "" + housesCount;
+	};
+	
 	this.addScore = function(value){
 		score += value;
 	};
@@ -119,7 +141,7 @@ function Model() {
 		spritesHome.forEach(function(sprite){
 			sprite.data.counter++;
 			if(sprite.data.counter % 50 === 0){
-				var value = 100/houses.getHousePlaces(sprite.data.x,sprite.data.y).totalPlaces;
+				var value = 100/(houses.getHousePlaces(sprite.data.x,sprite.data.y).totalPlaces+3);
 				that.addScore(value);
 			}
 			
@@ -133,10 +155,10 @@ function Model() {
 		
 		sprites.forEach(function(sprite){
 			sprite.data.counter++;
-			if(sprite.data.counter === 100){
+			if(sprite.data.counter === 1000){
 				sprite.frame = sprite.frame+4;
 			}
-			if(sprite.data.counter === 200){
+			if(sprite.data.counter === 2000){
 				sprite.frame = sprite.frame+4;
 			}
 			if(sprite.frame >=8){
@@ -152,18 +174,24 @@ function Model() {
 					that.mergeSprite(sprite,sprite2);
 					sprite.scale.setTo(sprite.scale.x*1.5,sprite.scale.y*1.5);
 					sprite.x -=4*sprite.scale.y;
-					if(sprite.scale.x>3){
-						// Game over
-					stateText.text=" GAME OVER \n Click to restart";
-					stateText.visible = true;
-
-					//the "click to restart" handler
-					game.input.onTap.addOnce(restart,this);						
+					sprite.data.angry++;
+					if(sprite.data.angry==4){
+							// Game over
+						that.stateText.text=" GAME OVER ";
+						that.stateText.visible = true;
+						game.paused = true;
 					}
 				}
 			};
 		};
 		
+	};
+	
+	this.manageResources = function(){
+		resourceCount++;
+		if(resourceCount % 300 === 0){
+			this.addHouse();
+		}
 	};
 	
 };

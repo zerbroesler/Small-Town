@@ -38,9 +38,14 @@ function Create(game, model, tool) {
 		scoreText = game.add.text(selectXPos+77, 190, model.getScore(), { fontSize: '36px', fill: '#ffffff',boundsAlignH : "right" });
 		model.setScoreText(scoreText);
 
+		game.add.text(selectXPos+67,250,"Houses", { fill: '#ffffff',fontSize : 36 });
+		housesText = game.add.text(selectXPos+120, 290, model.getHouseCount(), { fontSize: '36px', fill: '#ffffff',boundsAlignH : "right" });
+		model.setHousesText(housesText);
+
 	    var stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '84px Arial', fill: '#fff' });
 		stateText.anchor.setTo(0.5, 0.5);
 		stateText.visible = false;
+		model.stateText = stateText;
 
 		
 		// User selection
