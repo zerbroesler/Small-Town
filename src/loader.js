@@ -10,7 +10,7 @@ function Loader(game) {
 		game.load.image('col3','pic/yellow.png');
 		game.load.image('col4','pic/purple.png');
 		
-		game.load.spritesheet('maennchen','pic/maennchen.png',32,32,4);
+		game.load.spritesheet('maennchen','pic/maennchen.png',32,32);
 	
 /*		
 		game.load.image('horizontal','sprite/brushHozizontal.png');

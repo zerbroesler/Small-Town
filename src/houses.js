@@ -168,7 +168,10 @@ function Houses(model){
 		var tileId = getTileId(tile.index);
 		var occupied = getOccupied(tile.index);
 		var freeRooms = [1,2,2,3,2,3,3,4];
-		return freeRooms[tileId]-occupied;
+		return {
+			free: freeRooms[tileId]-occupied,
+			total : freeRooms[tileId] 
+		};
 	};
 	
 	this.connectHouses = function(x1,y1,x2,y2){
@@ -177,22 +180,25 @@ function Houses(model){
 		var other = indexFromCoordinates(x2,y2); 
 		union(first,other);
 	};
-	this.getFreeHousePlaces = function(x,y){
+	this.getHousePlaces = function(x,y){
 		var entry = indexFromCoordinates(x,y);
 		var connected = [];
 		var freePlaces = 0;
+		var totalPlaces = 0;
 		var rootHouse = houses[entry];
 		for (var index = 0; index < houses.length; index++) {
 			if(rootHouse === root(houses[index])){
-				freePlaces += this.getFreeInHouse(index);
+				freePlaces += this.getFreeInHouse(index).free;
+				totalPlaces += this.getFreeInHouse(index).total;
 				if(freePlaces > 0){
 					connected.push(index);
-					break;
+//					break;
 				}
 			}
 		}		
 		return { 
 			freePlaces : freePlaces,
+			totalPlaces : totalPlaces,
 			connected : connected
 		};
 		console.log(connected);
@@ -208,7 +214,7 @@ function Houses(model){
 	this.enterHouse = function(x,y){
 		var map = model.getGameMap().getMap();
 		var tile = map.getTile(x,y);
-		var freeHousePlaces = this.getFreeHousePlaces(x,y);
+		var freeHousePlaces = this.getHousePlaces(x,y);
 		if(freeHousePlaces.freePlaces >0){
 			this.occupyTile(freeHousePlaces.connected[0]);
 		}

@@ -28,19 +28,21 @@ function Update(game, model, tool) {
 		}
 		if(isMyColor(left,sprite.data.color)){
 			var tile = left; 
-			if(houses.getFreeHousePlaces(tile.x,tile.y).freePlaces > 0)
+			if(houses.getHousePlaces(tile.x,tile.y).freePlaces > 0)
 			sprite.data.enter=-1;
 			sprite.data.entery=sprite.y-roundY*32;
 		}
 		if(isMyColor(right,sprite.data.color)){
 			var tile = right; 
-			if(houses.getFreeHousePlaces(tile.x,tile.y).freePlaces > 0)
+			if(houses.getHousePlaces(tile.x,tile.y).freePlaces > 0)
 			sprite.data.enter=1;
 			sprite.data.entery=sprite.y-roundY*32;
 		}
 	}
 
 	return function() {
+		model.spriteBehaviour();
+		model.scoring();
 		// Function called 60 times per second
 		var aMoving = [];
 		var graphics = model.getGraphics();
@@ -51,7 +53,7 @@ function Update(game, model, tool) {
 		if(model.getSprites().length<10 && wait < 0){
 			sprite = game.add.sprite(middle-4 + Math.floor(Math.random()*8) , 0, 'maennchen',Math.floor(Math.random()*4));
 			model.addSprite(sprite);
-			wait = Math.floor(Math.random()*50)+100;
+			wait = Math.floor(Math.random()*50)+80;
 		}
 		
 		// Find out where the mouse is
@@ -74,7 +76,6 @@ function Update(game, model, tool) {
 				if (sprite.x>middle+25 || sprite.x<middle-25){
 					sprite.visible = false;
 					var mapLayer = model.getMapLayer();
-					model.removeSprite(sprite);
 					var x = 0;
 					if(sprite.data.enter===-1){
 						x = leftOfRoad;
@@ -86,6 +87,9 @@ function Update(game, model, tool) {
 					//Put somebody in
 					houses = model.getHouses();
 					houses.enterHouse(x,y);
+					sprite.data.x = x;
+					sprite.data.y = y;
+					model.removeSprite(sprite);
 				}
 			}else{
 				if(sprite.data.upwards !== true){

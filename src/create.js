@@ -35,6 +35,12 @@ function Create(game, model, tool) {
 		});
 		
 		game.add.text(selectXPos+77,150,"Score", { fill: '#ffffff',fontSize : 36 });
+		scoreText = game.add.text(selectXPos+77, 190, model.getScore(), { fontSize: '36px', fill: '#ffffff',boundsAlignH : "right" });
+		model.setScoreText(scoreText);
+
+	    var stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '84px Arial', fill: '#fff' });
+		stateText.anchor.setTo(0.5, 0.5);
+		stateText.visible = false;
 
 		
 		// User selection
