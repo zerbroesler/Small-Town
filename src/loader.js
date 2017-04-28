@@ -9,22 +9,11 @@ function Loader(game) {
 		game.load.image('col2','pic/green.png');
 		game.load.image('col3','pic/yellow.png');
 		game.load.image('col4','pic/purple.png');
+		game.load.image('loadingBar','pic/loadingBar.png');
 		
-		game.load.spritesheet('maennchen','pic/maennchen.png',32,32);
-	
-/*		
-		game.load.image('horizontal','sprite/brushHozizontal.png');
-		game.load.image('vertical','sprite/brushVertical.png');
-		game.load.image('circle','sprite/circle.png');
-		game.load.image('tri1','sprite/tri1.png');
-		game.load.image('tri2','sprite/tri2.png');
-		game.load.image('tri3','sprite/tri3.png');
-		game.load.image('tri4','sprite/tri4.png');
-		game.load.image('reset','sprite/reset.png');
-		game.load.image('wonGame','sprite/wonGame.png');
 
-		game.load.image('nextLevel','sprite/nextLevel.png');
-*/
+	    game.load.script('splash',  'states/Splash.js');
+		
 		// Load maps
 		game.load.tilemap('Level1','maps/level1a.json',null,Phaser.Tilemap.TILED_JSON);
 		game.load.image('ground','pic/ground.png');

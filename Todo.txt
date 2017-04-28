@@ -1,0 +1,6 @@
+* Instruction screen
+* End of a level (Points reached?)
+* Clear what happens with the people when they grow: sound, animation
+* Multiple states (Start, Instruction, (Level select), Game, Game Over)
+
+* https://github.com/MattMcFarland/phaser-menu-system
