@@ -1,32 +1,34 @@
 /*
- * 
+ * Inits the game and starts the splash state which loads assets and calls the game 
  */
-
+var game;
 function init() {
 
 	// Initialize Phaser, and creates a game
-	var game = new Phaser.Game(c.size.x, c.size.y, Phaser.AUTO, 'game_div',null,false,false);
-	var gameState = {};
-	var tool = {
-		events : {}
-	};
-	var model = new Model(game);
-	var gameMap = new GameMap(game,model);
-	model.setGameMap(gameMap);
+	game = new Phaser.Game(c.size.x, c.size.y, Phaser.AUTO, 'game_div',null,false,false);
 
-	// Creates a new 'main' state that will contain the game
-	gameState.main = function() {
+	var preStart = {};
+	preStart.preload = function(){
+		game.load.image('loadingBar','pic/loadingBar.png');
 	};
-	gameState.main.prototype = {
+	preStart.create = function(){
+		// This sets a limit on the up-scale
+		game.scale.maxWidth = c.sizeMax.x;
+		game.scale.maxHeight = c.sizeMax.y;
+		game.scale.minWidth = c.sizeMin.x;
+		game.scale.minHeight = c.sizeMin.y;
+		// Then we tell Phaser that we want it to scale up to whatever the
+		// browser can handle, but to do it proportionally
+		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 
-		preload : Loader(game),
-		create : Create(game, model, tool),
-		update : Update(game, model, tool),
-		render : Render(game, model, tool),
+		// Creates a new 'splash' state that will load assets and start the
+		var splash = new Splash();	
+		game.state.add('splash', splash);
+		game.state.start('splash');
 	};
 	
-	// Add and start the 'main' state to start the game
-	game.state.add('main', gameState.main);
-	game.state.start('main');
+	game.state.add('preStart', preStart);
+	game.state.start('preStart');
+
 
 }
