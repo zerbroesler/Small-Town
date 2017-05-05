@@ -3,7 +3,7 @@ function Update(game, model, tool) {
 	var controller = new Controller(model);
 	var down = false;
 	var won = false;
-	var wait = 200;
+	var wait = 10;
 	var middle = c.fieldsize.x / 2 -16;
 	var leftOfRoad = 8;
 	var rightOfRoad = 11;
@@ -48,13 +48,13 @@ function Update(game, model, tool) {
 		var aMoving = [];
 		var graphics = model.getGraphics();
 		graphics.clear();
-		var map = model.getGameMap().getMap();
+//		var map = model.getGameMap().getMap();
 
 		wait--;
 		if(model.getSprites().length<10 && wait < 0){
 			sprite = game.add.sprite(middle-4 + Math.floor(Math.random()*8) , 0, 'maennchen',Math.floor(Math.random()*4));
 			model.addSprite(sprite);
-			wait = Math.floor(Math.random()*50)+80;
+			wait = Math.floor(Math.random()*50)+200;
 		}
 		
 		// Find out where the mouse is
