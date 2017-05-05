@@ -24,8 +24,7 @@ function GameMap(game,model){
 
 		mapLayer = map.createLayer('level');
 		//  Resize the world
-		mapLayer.resizeWorld();
-		model.setMapLayer(mapLayer);
+//		mapLayer.resizeWorld();
 
 		//  Create our tile selector at the top of the screen
 		this.createTileSelector();
@@ -43,6 +42,11 @@ function GameMap(game,model){
 	this.pickTile = function(sprite, pointer) {
 		currentTile = game.math.snapToFloor(pointer.x, 32) / 32;
 	}
+	
+	this.deactivate = function(){
+		marker.visible = false;
+		game.input.deleteMoveCallback(this.updateMarker, this);		
+	};
 	
 	this.updateMarker = function() {
 

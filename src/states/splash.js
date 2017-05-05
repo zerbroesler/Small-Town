@@ -7,8 +7,6 @@ function Splash() {
 	};
 
 	this.loadImages = function() {
-		// Title screen
-		game.load.image('titleScreen', 'pic/titleScreen.png');
 		game.load.spritesheet('maennchen', 'pic/maennchen.png', 32, 32);
 		game.load.image('col1', 'pic/blue.png');
 		game.load.image('col2', 'pic/green.png');
@@ -52,9 +50,7 @@ function Splash() {
 	    game.state.add("GameMenu",GameMenu);
 		game.state.add("Game", Game);
 		game.state.add("GameInstructions", GameInstructions);
-		//		    game.state.add("GameOver",GameOver);
-		//		    game.state.add("Credits",Credits);
-		//		    game.state.add("Options",Options);
+//	    game.state.add("GameOver",GameOver);
 	},
 
 	this.addGameMusic = function() {

@@ -70,7 +70,6 @@ function Houses(model){
 	}
 	
 	var calculateHouseShape = function(x,y,color){
-		var mapLayer = model.getMapLayer();
 		var map = model.getGameMap().getMap();
 		var left = 0;
 		var right = 0;
@@ -96,14 +95,11 @@ function Houses(model){
 		var old = center.index - 1;
 		old = old - old % 8;
 		newHouse += old + 1;
-		map.putTile(newHouse, x, y, mapLayer);
+		map.putTile(newHouse, x, y);
 		return neighbours;
 	}
 	
 	this.setHouse = function(x,y,color){
-		if(model.useHouse() === false){
-			return;
-		}
 		// Sets a house in the given color
 		var map = model.getGameMap().getMap();
 		if(x >= map.width){
@@ -112,10 +108,13 @@ function Houses(model){
 		if(y >= map.height){
 			return;
 		}
-		var mapLayer = model.getMapLayer();
 		if(map.getTile(x,y).index===1){
+			// Do I have a house free?
+			if(model.useHouse() === false){
+				return;
+			}
 			// Put only on grass
-			map.putTile(color*40+1, x, y, mapLayer);
+			map.putTile(color*40+1, x, y);
 		}
 		var neighbours = calculateHouseShape(x,y,color);
 		var that = this;

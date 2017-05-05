@@ -1,11 +1,6 @@
 function Model(game) {
 
 	var that = this;
-	var lines = [];
-	var aShape = [];
-	var aRects = [];
-	var aMoving = [];
-	var oBrush = null;
 	var oGraphics = null;
 	var gameMap = null;
 	var level = 0;
@@ -13,34 +8,62 @@ function Model(game) {
 	var marker = null;
 	var selection = null;
 	var houses = new Houses(this);
-	var mapLayer = null;
-	var sprites = [];
-	var spritesHome = [];
-	var spriteNo = 0;
+
 	var score = 0;
 	var housesCount = 1;
 	var housesText;
 	var resourceCount = 0;
+	
+	var humans = [];
+	var humansHome = [];
+	var humanCounter = 0;
+	
+	var merged = [];
+	
+	var scoringCounter = 0;
+	
+	var houseEntered = [];
 
 	this.init = function(){
 		housesCount = 1;
+		level = 0;
+		color = 1;
+		marker = null;
+		score = 0;
+		housesCount = 1;
+		housesText = "";
+		resourceCount = 0;
+		humans = [];
+		humansHome = [];
+		humanCounter = 0;
+		merged = [];
+		scoringCounter = 0;
+		houseEntered = [];
 	};
 	
 	// Model
 	this.getHouses = function(){
 		return houses;
-	}
+	};
+	
+	this.addHouseEntered = function(point){
+		houseEntered.push(point);
+		return houseEntered.length-1;
+	};
+	this.isHouseEntered = function(pointEntered){
+		return houseEntered.some(function(element){
+			return (element.x === pointEntered.x && element.y === pointEntered.y);
+		});
+	};
+	this.removeHouseEntered = function(id){
+		houseEntered.splice(id,1);
+	};
+	
 	this.setColor = function(colorIn){
 		color = colorIn;
 	};
 	this.getColor = function(){
 		return color;
-	};
-	this.setMapLayer = function(mapLayerIn){
-		mapLayer = mapLayerIn;
-	};
-	this.getMapLayer = function(){
-		return mapLayer;
 	};
 	this.setMarker = function(markerIn){
 		marker = markerIn;
@@ -85,31 +108,37 @@ function Model(game) {
 		this.setRects(this.createRects());
 		this.setGoal();
 	};
-	this.addSprite = function(sprite){
-		sprite.data.no = spriteNo;
-		sprite.data.color = sprite.frame + 1;
-		sprite.data.enter = 0;
-		sprite.data.counter = 0;
-		sprite.data.angry = 0;
-		spriteNo++;
-		sprites.push(sprite);
-	}
-	this.removeSprite = function(sprite){
-		spritesHome.push(sprite);
-		sprites = sprites.filter(function(current){
-			return (current.data.no !== sprite.data.no)
+	
+	this.addHuman = function(human){
+		human.no = humanCounter++;
+		humans.push(human);
+	};
+	this.removeHuman = function(human){
+		humansHome.push(human);
+		humans = humans.filter(function(current){
+			return (current.no !== human.no)
 		});
-	}
-	this.mergeSprite = function(sprite,sprite2){
-		sprite2.visible = false;
-		sprite.data.merged = sprite2.data.no;
-		sprites = sprites.filter(function(current){
-			return (current.data.no !== sprite2.data.no)
+	};
+	this.mergeHuman = function(human,humanMerged){
+		// Merges a human into another
+		humanMerged.visible = false;
+		human.merged.push(humanMerged.no);
+		humans = humans.filter(function(current){
+			return (current.no !== humanMerged.no)
 		});
-	}
-	this.getSprites = function(){
-		return sprites;
-	}
+	};	
+	this.getMergedHuman = function(number){
+		return merged.filter(function(current){
+			return (current.no === number);
+		});
+	};
+
+	
+	this.getHumans = function(){
+		return humans;
+	};
+	
+	// Houses to build
 	this.getHouseCount = function(){
 		return housesCount;
 	};
@@ -141,54 +170,35 @@ function Model(game) {
 	this.scoring = function(){
 
 		var that = this;
-		
-		spritesHome.forEach(function(sprite){
-			sprite.data.counter++;
-			if(sprite.data.counter % 50 === 0){
-				var value = 100/(houses.getHousePlaces(sprite.data.x,sprite.data.y).totalPlaces+3);
+		scoringCounter++;
+		if(scoringCounter % 50 === 0){
+			humansHome.forEach(function(human){
+				var value = 100/(houses.getHousePlaces(human.x,human.y).totalPlaces+3);
 				that.addScore(value);
-			}
-			
-		});
-		scoreText.text = ""+(Math.floor(score));
+			});
+			scoreText.text = ""+(Math.floor(this.getScore()));
+		}
 	}
-	
-	this.spriteBehaviour = function(){
+	this.humansBehaviour = function(){
 		var that = this;
 		var unhappy = [];
 		
-		sprites.forEach(function(sprite){
-			sprite.data.counter++;
-			if(sprite.data.counter === 1000){
-				sprite.frame = sprite.frame+4;
-			}
-			if(sprite.data.counter === 2000){
-				sprite.frame = sprite.frame+4;
-			}
-			if(sprite.frame >=8){
-				unhappy.push(sprite);
-			}
+		humans.forEach(function(human){
+			if(human.updateHappyness() == true){
+				unhappy.push(human);
+			};
 		});
 		for(var i=0;i<unhappy.length-1;i++){
-		sprite = unhappy[i];
+		human = unhappy[i];
 			for(var j=i;j<unhappy.length;j++){
-				sprite2 = unhappy[j];
-				if(sprite.data.no!==sprite2.data.no && (sprite.y === sprite2.y || sprite.y+1 === sprite2.y) && sprite.frame === sprite2.frame){
-					// Two unhappy met!
-					that.mergeSprite(sprite,sprite2);
-					sprite.scale.setTo(sprite.scale.x*1.5,sprite.scale.y*1.5);
-					sprite.x -=4*sprite.scale.y;
-					sprite.data.angry++;
-					if(sprite.data.angry==4){
-							// Game over
-						that.stateText.text=" GAME OVER ";
-						that.stateText.visible = true;
-						game.paused = true;
-					}
-				}
+				human2 = unhappy[j];
+				if(human.unhappyCollision(human2) === true){
+					merged.push(human2);
+					human2.invisible();
+					this.mergeHuman(human,human2);
+				};
 			};
 		};
-		
 	};
 	
 	this.manageResources = function(){
